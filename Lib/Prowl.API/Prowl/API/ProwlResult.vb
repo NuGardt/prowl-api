@@ -18,17 +18,39 @@
 Imports System.Xml.Serialization
 
 Namespace Prowl.API
-  <XmlRoot(elementName := "prowl")>
+  ''' <summary>
+  ''' Prowl API response.
+  ''' </summary>
+  ''' <remarks></remarks>
+    <XmlRoot(elementName := "prowl")>
   Public Class ProwlResult
+    ''' <summary>
+    ''' Contains error details if applicable.
+    ''' </summary>
+    ''' <remarks></remarks>
     <XmlElement(elementName := "error")>
     Public [Error] As ProwlResulterror
 
+    ''' <summary>
+    ''' Contains success details if applicable.
+    ''' </summary>
+    ''' <remarks></remarks>
     <XmlElement(elementName := "success")>
     Public Success As ProwlResultSuccess
 
+    ''' <summary>
+    ''' Contains Token/API key retrieval details if applicable.
+    ''' </summary>
+    ''' <remarks></remarks>
     <XmlElement(elementName := "retrieve")>
     Public Retrieve As ProwlResultRetrieve
 
+    ''' <summary>
+    ''' Returns <c>True</c> if there was an exception, otherwise <c>False</c>.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     <XmlIgnore()>
     Public ReadOnly Property HasException As Boolean
       Get
@@ -36,6 +58,12 @@ Namespace Prowl.API
       End Get
     End Property
 
+    ''' <summary>
+    ''' Converts error details into <c>System.Exception</c>.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     <XmlIgnore()>
     Public ReadOnly Property ToException As Exception
       Get

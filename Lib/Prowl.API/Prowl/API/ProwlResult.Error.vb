@@ -19,16 +19,33 @@ Imports System.Xml.Serialization
 
 Namespace Prowl.API
   Partial Class ProwlResult
-    <XmlRoot(elementName := "error")>
+    ''' <summary>
+    ''' Error details.
+    ''' </summary>
+    ''' <remarks></remarks>
+      <XmlRoot(elementName := "error")>
     Public Class ProwlResulterror
+      ''' <summary>
+      ''' Error code.
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlAttribute(attributeName := "code")>
       Public Code As Int16
 
+      ''' <summary>
+      ''' Error message.
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlText()>
       Public Message As String
 
+      ''' <summary>
+      ''' Constructor.
+      ''' </summary>
+      ''' <remarks></remarks>
       Public Sub New()
         Me.Code = Nothing
+        Me.Message = Nothing
       End Sub
     End Class
   End Class

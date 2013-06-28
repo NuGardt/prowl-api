@@ -19,14 +19,30 @@ Imports System.Xml.Serialization
 
 Namespace Prowl.API
   Partial Class ProwlResult
-    <XmlRoot(elementName := "success")>
+    ''' <summary>
+    ''' Success details.
+    ''' </summary>
+    ''' <remarks></remarks>
+      <XmlRoot(elementName := "success")>
     Public Class ProwlResultSuccess
+      ''' <summary>
+      ''' Sucess code. Normally 200.
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlAttribute(attributeName := "code")>
       Public Code As Int16
 
+      ''' <summary>
+      ''' API calls remaining until reset date.
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlAttribute(attributeName := "remaining")>
       Public Remaining As Int32
 
+      ''' <summary>
+      ''' Reset date of API calls. Unix time.
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlAttribute(attributeName := "resetdate")>
       Public ResetDate As Int64
 
@@ -36,6 +52,12 @@ Namespace Prowl.API
         Me.ResetDate = Nothing
       End Sub
 
+      ''' <summary>
+      ''' Reset date of API calls. 
+      ''' </summary>
+      ''' <value></value>
+      ''' <returns></returns>
+      ''' <remarks></remarks>
       <XmlIgnore()>
       Private ReadOnly Property ResetDateTime As DateTime
         Get

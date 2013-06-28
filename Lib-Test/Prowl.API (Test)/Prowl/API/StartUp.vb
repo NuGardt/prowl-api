@@ -19,8 +19,8 @@ Imports System.Threading
 
 Namespace Prowl.API
   Module StartUp
-    Const ApiKey = "83582c6830679f0a24a426f82d5395038321bd37"
-    Const ProviderKey = "4087ef7f72c11a4b0fde0a23eaa58a06dfbcf5e1"
+    Const ApiKey = "<< Your API Key >>"
+    Const ProviderKey = "<< Your provider key >>"
 
     Const SyncTest As Boolean = True
     Const AsyncTest As Boolean = True
@@ -39,14 +39,14 @@ Namespace Prowl.API
 
       'Add - Sync
       If SyncTest AndAlso AddNotificationTest Then
-        Ex = ProwlService.AddNotification(ApiKey := ApiKey, ApplicationName := "Test APU: " + DateTime.Now.ToString(), EventName := "Prowl API Test", Description := "Some description", Result := Result, ProviderKey := Nothing, Priority := eProwlPriority.Emergency, URL := "http://www.nugardt.com")
+        Ex = ProwlService.AddNotification(ApiKey := ApiKey, Application := "Test APU: " + DateTime.Now.ToString(), Event := "Prowl API Test", Description := "Some description", Result := Result, ProviderKey := Nothing, Priority := eProwlPriority.Emergency, URL := "http://www.nugardt.com")
         If (Ex IsNot Nothing) Then Call Trace.WriteLine(Ex.ToString())
       End If
 
       'Add - ASync
       If AsyncTest AndAlso AddNotificationTest Then
         Call Interlocked.Increment(AsyncCallsBusy)
-        AsyncResult = ProwlService.AddNotificationBegin(Key := Nothing, ApiKey := ApiKey, ApplicationName := "Test APU: " + DateTime.Now.ToString(), EventName := "Prowl API Test", Description := "Some description", Callback := AddNotificationCallback, ProviderKey := Nothing, Priority := eProwlPriority.Emergency, URL := "http://www.nugardt.com")
+        AsyncResult = ProwlService.AddNotificationBegin(Key := Nothing, ApiKey := ApiKey, Application := "Test APU: " + DateTime.Now.ToString(), Event := "Prowl API Test", Description := "Some description", Callback := AddNotificationCallback, ProviderKey := Nothing, Priority := eProwlPriority.Emergency, URL := "http://www.nugardt.com")
         If (Ex IsNot Nothing) Then Call Trace.WriteLine(Ex.ToString())
       End If
 
