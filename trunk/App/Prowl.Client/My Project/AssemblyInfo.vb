@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Die Werte der Assemblyattribute überprüfen
 
-<Assembly: AssemblyTitle("Prowl.API")> 
+<Assembly: AssemblyTitle("Prowl.Client")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("NuGardt")> 
-<Assembly: AssemblyProduct("Prowl.API")> 
+<Assembly: AssemblyProduct("Prowl.Client")> 
 <Assembly: AssemblyCopyright("Copyright © NuGardt 2013")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-<Assembly: Guid("918b261d-33a6-4e40-8627-b04505723711")> 
+<Assembly: Guid("6a15cff5-0bf7-4f86-962d-9949a902c65f")> 
 
 ' Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 '

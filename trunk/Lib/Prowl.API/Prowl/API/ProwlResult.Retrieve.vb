@@ -19,17 +19,37 @@ Imports System.Xml.Serialization
 
 Namespace Prowl.API
   Partial Class ProwlResult
-    <XmlRoot(elementName := "success")>
+    ''' <summary>
+    ''' Token/API key retrieve details
+    ''' </summary>
+    ''' <remarks></remarks>
+      <XmlRoot(elementName := "success")>
     Public Class ProwlResultRetrieve
+      ''' <summary>
+      ''' Token
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlAttribute(attributeName := "token")>
       Public Token As String
 
+      ''' <summary>
+      ''' URL to authorize Token
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlAttribute(attributeName := "url")>
       Public Url As String
 
+      ''' <summary>
+      ''' API key.
+      ''' </summary>
+      ''' <remarks></remarks>
       <XmlAttribute(attributeName := "apikey")>
       Public ApiKey As String
 
+      ''' <summary>
+      ''' Constructor
+      ''' </summary>
+      ''' <remarks></remarks>
       Public Sub New()
         Me.Token = Nothing
         Me.Url = Nothing

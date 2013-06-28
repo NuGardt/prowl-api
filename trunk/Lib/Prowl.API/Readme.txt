@@ -2,7 +2,7 @@
  Author: Kevin 'OomJan' Gardthausen
  Last Update: 2013-06-28
 
- Visual Basic .NET 4.0 implementation of the Prowl API (http://www.prowlapp.com/api.php). Project includes test project. Runs under Mono (v3) framework.
+ Visual Basic .NET 4.0 implementation of the Prowl API (http://www.prowlapp.com/api.php). Project includes console client and test project. Runs under Mono (v3) framework.
 
 
 ==Open source==

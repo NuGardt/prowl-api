@@ -23,20 +23,63 @@ Imports System.Text
 Imports System.IO
 
 Namespace Prowl.API
-  Public Class ProwlService
+  ''' <summary>
+  ''' Class contains synchronous and asynchronous API call function.
+  ''' </summary>
+  ''' <remarks></remarks>
+    Public NotInheritable Class ProwlService
+    ''' <summary>
+    ''' Base calling URL.
+    ''' </summary>
+    ''' <remarks></remarks>
     Private Const ProwlBaseUrl As String = "https://api.prowlapp.com/publicapi/"
 
+    ''' <summary>
+    ''' Serializer for API response
+    ''' </summary>
+    ''' <remarks></remarks>
     Private Shared ReadOnly ProwlResultSerializer As XmlSerializer = New XmlSerializer(GetType(ProwlResult))
 
+    ''' <summary>
+    ''' Don't allow instance creation.
+    ''' </summary>
+    ''' <remarks></remarks>
     Private Sub New()
       '-
     End Sub
 
 #Region "Function AddNotification"
 
+    ''' <summary>
+    ''' Add a notification for a particular user.
+    ''' 
+    ''' You must provide either event or description or both.
+    ''' </summary>
+    ''' <param name="ApiKey">API keys separated by commas. Each API key is a 40-byte hexadecimal string.
+    ''' 
+    ''' When using multiple API keys, you will only get a failure response if all API keys are not valid.</param>
+    ''' <param name="Application">The name of your application or the application generating the event.</param>
+    ''' <param name="Event">The name of the event or subject of the notification.</param>
+    ''' <param name="Description">A description of the event, generally terse. [10000]</param>
+    ''' <param name="Result">Contains result details if applicable.</param>
+    ''' <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted. [40]</param>
+    ''' <param name="Priority">Default value of 0 if not provided. An integer value ranging [-2, 2] representing:
+    ''' 
+    '''     -2 = Very Low
+    '''     -1 = Moderate
+    '''      0 = Normal
+    '''      1 = High
+    '''      2 = Emergency
+    ''' 
+    ''' Emergency priority messages may bypass quiet hours according to the user's settings. </param>
+    ''' <param name="URL">Requires Prowl 1.2 The URL which should be attached to the notification.
+    '''
+    ''' This will trigger a redirect when launched, and is viewable in the notification list.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function AddNotification(ByVal ApiKey As String,
-                                           ByVal ApplicationName As String,
-                                           ByVal EventName As String,
+                                           ByVal Application As String,
+                                           ByVal [Event] As String,
                                            ByVal Description As String,
                                            <Out()> ByRef Result As ProwlResult,
                                            Optional ByVal ProviderKey As String = Nothing,
@@ -49,14 +92,14 @@ Namespace Prowl.API
         Ex = New ArgumentException("ProviderKey is too long (40 max)")
       ElseIf (Not String.IsNullOrEmpty(URL)) AndAlso (URL.Length > 512) Then
         Ex = New ArgumentException("URL is too long (512 max)")
-      ElseIf (Not String.IsNullOrEmpty(ApplicationName)) AndAlso (ApplicationName.Length > 512) Then
-        Ex = New ArgumentException("ApplicationName is too long (256 max)")
-      ElseIf (Not String.IsNullOrEmpty(EventName)) AndAlso (EventName.Length > 1024) Then
-        Ex = New ArgumentException("EventName is too long (1024 max)")
+      ElseIf (Not String.IsNullOrEmpty(Application)) AndAlso (Application.Length > 512) Then
+        Ex = New ArgumentException("Application is too long (256 max)")
+      ElseIf (Not String.IsNullOrEmpty([Event])) AndAlso ([Event].Length > 1024) Then
+        Ex = New ArgumentException("Event is too long (1024 max)")
       ElseIf (Not String.IsNullOrEmpty(Description)) AndAlso (Description.Length > 10000) Then
         Ex = New ArgumentException("Description is too long (10000 max)")
-      ElseIf (String.IsNullOrEmpty(EventName)) AndAlso (String.IsNullOrEmpty(Description)) Then
-        Ex = New ArgumentNullException("EventName or Description must be filled.")
+      ElseIf (String.IsNullOrEmpty([Event])) AndAlso (String.IsNullOrEmpty(Description)) Then
+        Ex = New ArgumentNullException("Event or Description must be filled.")
       Else
         Dim SB As New StringBuilder
 
@@ -70,9 +113,9 @@ Namespace Prowl.API
         Dim tPriority As Int16 = Priority
         Call SB.AppendFormat("&priority={0}", tPriority.ToString())
         Call SB.AppendFormat("&url={0}", URL)
-        Call SB.AppendFormat("&application={0}", ApplicationName)
-        Call SB.AppendFormat("&event={0}", EventName)
-        Call SB.AppendFormat("&url={0}", Description)
+        Call SB.AppendFormat("&application={0}", Application)
+        Call SB.AppendFormat("&event={0}", [Event])
+        Call SB.AppendFormat("&description={0}", Description)
 
         Result = QueryAndParse(SB.ToString(), Ex)
       End If
@@ -80,10 +123,38 @@ Namespace Prowl.API
       Return Ex
     End Function
 
+    ''' <summary>
+    ''' Add a notification for a particular user.
+    ''' 
+    ''' You must provide either event or description or both.
+    ''' </summary>
+    ''' <param name="Key">Your own Key for tracking asynchronous calls.</param>
+    ''' <param name="ApiKey">API keys separated by commas. Each API key is a 40-byte hexadecimal string.
+    ''' 
+    ''' When using multiple API keys, you will only get a failure response if all API keys are not valid.</param>
+    ''' <param name="Application">The name of your application or the application generating the event.</param>
+    ''' <param name="Event">The name of the event or subject of the notification.</param>
+    ''' <param name="Description">A description of the event, generally terse. [10000]</param>
+    ''' <param name="Callback">Method to call on completion or failure.</param>
+    ''' <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted. [40]</param>
+    ''' <param name="Priority">Default value of 0 if not provided. An integer value ranging [-2, 2] representing:
+    ''' 
+    '''     -2 = Very Low
+    '''     -1 = Moderate
+    '''      0 = Normal
+    '''      1 = High
+    '''      2 = Emergency
+    ''' 
+    ''' Emergency priority messages may bypass quiet hours according to the user's settings. </param>
+    ''' <param name="URL">Requires Prowl 1.2 The URL which should be attached to the notification.
+    '''
+    ''' This will trigger a redirect when launched, and is viewable in the notification list.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function AddNotificationBegin(ByVal Key As Object,
                                                 ByVal ApiKey As String,
-                                                ByVal ApplicationName As String,
-                                                ByVal EventName As String,
+                                                ByVal Application As String,
+                                                ByVal [Event] As String,
                                                 ByVal Description As String,
                                                 ByVal Callback As AsyncCallback,
                                                 Optional ByVal ProviderKey As String = Nothing,
@@ -101,13 +172,21 @@ Namespace Prowl.API
       Dim tPriority As Int16 = Priority
       Call SB.AppendFormat("&priority={0}", tPriority.ToString())
       Call SB.AppendFormat("&url={0}", URL)
-      Call SB.AppendFormat("&application={0}", ApplicationName)
-      Call SB.AppendFormat("&event={0}", EventName)
-      Call SB.AppendFormat("&url={0}", Description)
+      Call SB.AppendFormat("&application={0}", Application)
+      Call SB.AppendFormat("&event={0}", [Event])
+      Call SB.AppendFormat("&description={0}", Description)
 
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
 
+    ''' <summary>
+    ''' Gets the response after the callback.
+    ''' </summary>
+    ''' <param name="Result">Asynchronous result</param>
+    ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
+    ''' <param name="Response">Contains response if applicable.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function AddNotificationEnd(ByVal Result As IAsyncResult,
                                               <Out()> ByRef Key As Object,
                                               <Out()> ByRef Response As ProwlResult) As Exception
@@ -118,6 +197,16 @@ Namespace Prowl.API
 
 #Region "Function Verify"
 
+    ''' <summary>
+    ''' Verify an API key is valid.
+    '''
+    ''' For the sake of adding a notification do not call verify first; it costs you an API call. You should only use verify to confirm an API key is valid in situations like a user entering an API key into your program. If it's not valid while posting the notification, you will get the appropriate error.
+    ''' </summary>
+    ''' <param name="ApiKey">The user's API key. A 40-byte hexadecimal string.</param>
+    ''' <param name="Result">Contains the result if applicable.</param>
+    ''' <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function Verify(ByVal ApiKey As String,
                                   <Out()> ByRef Result As ProwlResult,
                                   Optional ByVal ProviderKey As String = Nothing) As Exception
@@ -143,6 +232,17 @@ Namespace Prowl.API
       Return Ex
     End Function
 
+    ''' <summary>
+    ''' Verify an API key is valid.
+    ''' 
+    ''' For the sake of adding a notification do not call verify first; it costs you an API call. You should only use verify to confirm an API key is valid in situations like a user entering an API key into your program. If it's not valid while posting the notification, you will get the appropriate error.
+    ''' </summary>
+    ''' <param name="Key">Your own Key for tracking asynchronous calls.</param>
+    ''' <param name="ApiKey">he user's API key. A 40-byte hexadecimal string.</param>
+    ''' <param name="Callback">Method to call on completion or failure.</param>
+    ''' <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function VerifyBegin(ByVal Key As Object,
                                        ByVal ApiKey As String,
                                        ByVal Callback As AsyncCallback,
@@ -160,6 +260,14 @@ Namespace Prowl.API
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
 
+    ''' <summary>
+    ''' Gets the response after the callback.
+    ''' </summary>
+    ''' <param name="Result">Asynchronous result</param>
+    ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
+    ''' <param name="Response">Contains response if applicable.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function VerifyEnd(ByVal Result As IAsyncResult,
                                      <Out()> ByRef Key As Object,
                                      <Out()> ByRef Response As ProwlResult) As Exception
@@ -170,6 +278,15 @@ Namespace Prowl.API
 
 #Region "Function Retrieve/Token"
 
+    ''' <summary>
+    ''' Get a registration token for use in retrieve/apikey and the associated URL for the user to approve the request.
+    ''' 
+    ''' This is the first step in fetching an API key for a user. The token retrieved expires after 24 hours.
+    ''' </summary>
+    ''' <param name="ProviderKey">Your provider API key. Required</param>
+    ''' <param name="Result">Contains the result if applicable.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function RetrieveToken(ByVal ProviderKey As String,
                                          <Out()> ByRef Result As ProwlResult) As Exception
       Result = Nothing
@@ -193,6 +310,16 @@ Namespace Prowl.API
       Return Ex
     End Function
 
+    ''' <summary>
+    ''' Get a registration token for use in retrieve/apikey and the associated URL for the user to approve the request.
+    ''' 
+    ''' This is the first step in fetching an API key for a user. The token retrieved expires after 24 hours.
+    ''' </summary>
+    ''' <param name="Key">Your own Key for tracking asynchronous calls.</param>
+    ''' <param name="ProviderKey">Your provider API key. Required</param>
+    ''' <param name="Callback">Method to call on completion or failure.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function RetrieveTokenBegin(ByVal Key As Object,
                                               ByVal ProviderKey As Object,
                                               ByVal Callback As AsyncCallback) As IAsyncResult
@@ -208,6 +335,14 @@ Namespace Prowl.API
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
 
+    ''' <summary>
+    ''' Gets the response after the callback.
+    ''' </summary>
+    ''' <param name="Result">Asynchronous result</param>
+    ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
+    ''' <param name="Response">Contains response if applicable.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function RetrieveTokenEnd(ByVal Result As IAsyncResult,
                                             <Out()> ByRef Key As Object,
                                             <Out()> ByRef Response As ProwlResult) As Exception
@@ -218,6 +353,16 @@ Namespace Prowl.API
 
 #Region "Function Retrieve/ApiKey"
 
+    ''' <summary>
+    ''' Get an API key from a registration token retrieved in retrieve/token. The user must have approved your request first, or you will get an error response.
+    '''
+    ''' This is the second/final step in fetching an API key for a user.
+    ''' </summary>
+    ''' <param name="ProviderKey">Your provider API key. Required.</param>
+    ''' <param name="Token">The token returned from retrieve/token. Required.</param>
+    ''' <param name="Result">Contains the result if applicable.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function RetrieveApiKey(ByVal ProviderKey As String,
                                           ByVal Token As String,
                                           <Out()> ByRef Result As ProwlResult) As Exception
@@ -245,6 +390,17 @@ Namespace Prowl.API
       Return Ex
     End Function
 
+    ''' <summary>
+    ''' Get an API key from a registration token retrieved in retrieve/token. The user must have approved your request first, or you will get an error response.
+    '''
+    ''' This is the second/final step in fetching an API key for a user.
+    ''' </summary>
+    ''' <param name="Key">Your own Key for tracking asynchronous calls.</param>
+    ''' <param name="ProviderKey">Your provider API key. Required.</param>
+    ''' <param name="Token">The token returned from retrieve/token. Required.</param>
+    ''' <param name="Callback">Method to call on completion or failure.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function RetrieveApiKeyBegin(ByVal Key As Object,
                                                ByVal ProviderKey As Object,
                                                ByVal Token As String,
@@ -262,6 +418,14 @@ Namespace Prowl.API
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
 
+    ''' <summary>
+    ''' Gets the response after the callback.
+    ''' </summary>
+    ''' <param name="Result">Asynchronous result</param>
+    ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
+    ''' <param name="Response">Contains response if applicable.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Shared Function RetrieveApiKeyEnd(ByVal Result As IAsyncResult,
                                              <Out()> ByRef Key As Object,
                                              <Out()> ByRef Response As ProwlResult) As Exception
@@ -270,8 +434,8 @@ Namespace Prowl.API
 
 #End Region
 
-    Protected Shared Function QueryAndParse(ByVal URL As String,
-                                            <Out()> ByRef Ex As Exception) As ProwlResult
+    Private Shared Function QueryAndParse(ByVal URL As String,
+                                          <Out()> ByRef Ex As Exception) As ProwlResult
       Ex = Nothing
       Dim Result As ProwlResult = Nothing
       Dim Stream As Stream
