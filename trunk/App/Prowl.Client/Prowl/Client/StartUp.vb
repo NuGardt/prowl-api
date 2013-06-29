@@ -34,6 +34,7 @@ Namespace Prowl.Client
       Dim tPriority As String = Nothing
       Dim ttPriority As Int16
       Dim tUrl As String = Nothing
+      Dim tNoSSL As Boolean
 
       If cl.IsSet("help") Then
         Call Console.WriteLine("NuGardt Prowl Client v" + My.Application.Info.Version.ToString())
@@ -57,6 +58,8 @@ Namespace Prowl.Client
         Call Console.WriteLine("    efault value of 0 if not provided. Emergency priority messages may bypass quiet hours according to the user's settings. ")
         Call Console.WriteLine("  /url=... [Optional/512]")
         Call Console.WriteLine("    This will trigger a redirect when launched, and is viewable in the notification list.")
+        Call Console.WriteLine("  /NoSSL [Optional/False]")
+        Call Console.WriteLine("    Sends the notification without SSL (https).")
 
         Call Environment.Exit(0)
       Else
@@ -68,8 +71,13 @@ Namespace Prowl.Client
         Call cl.GetValues("priority", tPriority)
         If (Not Int16.TryParse(tPriority, ttPriority)) Then ttPriority = eProwlPriority.Normal
         Call cl.GetValues("url", tUrl)
+        If cl.IsSet("nossl") Then
+          tNoSSL = True
+        Else
+          tNoSSL = False
+        End If
 
-        Ex = ProwlService.AddNotification(ApiKey := tApiKey, Application := tApplication, [Event] := tEvent, Description := tDescription, Result := Result, ProviderKey := tProviderKey, Priority := CType(ttPriority, eProwlPriority), URL := tUrl)
+        Ex = ProwlService.AddNotification(ApiKey := tApiKey, Application := tApplication, [Event] := tEvent, Description := tDescription, Result := Result, ProviderKey := tProviderKey, Priority := CType(ttPriority, eProwlPriority), URL := tUrl, NoSSL := tNoSSL)
 
         If (Ex IsNot Nothing) Then
           If (Result IsNot Nothing) Then
