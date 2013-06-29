@@ -20,6 +20,7 @@ Imports System.Runtime.InteropServices
 Imports System.Net
 Imports System.Threading
 Imports System.Text
+Imports System.Web
 Imports System.IO
 
 Namespace Prowl.API
@@ -90,7 +91,7 @@ Namespace Prowl.API
                                            <Out()> ByRef Result As ProwlResult,
                                            Optional ByVal ProviderKey As String = Nothing,
                                            Optional ByVal Priority As eProwlPriority = eProwlPriority.Normal,
-                                           Optional ByVal URL As String = Nothing, _
+                                           Optional ByVal URL As String = Nothing,
                                            Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
@@ -119,14 +120,14 @@ Namespace Prowl.API
         'Call
         Call SB.Append("add")
         'Parameters
-        Call SB.AppendFormat("?apikey={0}", ApiKey)
-        If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", ProviderKey)
+        Call SB.AppendFormat("?apikey={0}", HttpUtility.UrlEncode(ApiKey))
+        If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
         Dim tPriority As Int16 = Priority
         Call SB.AppendFormat("&priority={0}", tPriority.ToString())
-        If (Not String.IsNullOrEmpty(URL)) Then Call SB.AppendFormat("&url={0}", URL)
-        Call SB.AppendFormat("&application={0}", Application)
-        Call SB.AppendFormat("&event={0}", [Event])
-        Call SB.AppendFormat("&description={0}", Description)
+        If (Not String.IsNullOrEmpty(URL)) Then Call SB.AppendFormat("&url={0}", HttpUtility.UrlEncode(URL))
+        Call SB.AppendFormat("&application={0}", HttpUtility.UrlEncode(Application))
+        Call SB.AppendFormat("&event={0}", HttpUtility.UrlEncode([Event]))
+        Call SB.AppendFormat("&description={0}", HttpUtility.UrlEncode(Description))
 
         Result = QueryAndParse(SB.ToString(), Ex)
       End If
@@ -170,8 +171,8 @@ Namespace Prowl.API
                                                 ByVal Callback As AsyncCallback,
                                                 Optional ByVal ProviderKey As String = Nothing,
                                                 Optional ByVal Priority As eProwlPriority = eProwlPriority.Normal,
-                                                Optional ByVal URL As String = Nothing, _
-                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
+                                                Optional ByVal URL As String = Nothing,
+                                                Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
@@ -183,14 +184,14 @@ Namespace Prowl.API
       'Call
       Call SB.Append("add")
       'Parameters
-      Call SB.AppendFormat("?apikey={0}", ApiKey)
-      If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", ProviderKey)
+      Call SB.AppendFormat("?apikey={0}", HttpUtility.UrlEncode(ApiKey))
+      If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
       Dim tPriority As Int16 = Priority
       Call SB.AppendFormat("&priority={0}", tPriority.ToString())
-      If (Not String.IsNullOrEmpty(URL)) Then Call SB.AppendFormat("&url={0}", URL)
-      Call SB.AppendFormat("&application={0}", Application)
-      Call SB.AppendFormat("&event={0}", [Event])
-      Call SB.AppendFormat("&description={0}", Description)
+      If (Not String.IsNullOrEmpty(URL)) Then Call SB.AppendFormat("&url={0}", HttpUtility.UrlEncode(URL))
+      Call SB.AppendFormat("&application={0}", HttpUtility.UrlEncode(Application))
+      Call SB.AppendFormat("&event={0}", HttpUtility.UrlEncode([Event]))
+      Call SB.AppendFormat("&description={0}", HttpUtility.UrlEncode(Description))
 
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
@@ -225,8 +226,8 @@ Namespace Prowl.API
     ''' <remarks></remarks>
     Public Shared Function Verify(ByVal ApiKey As String,
                                   <Out()> ByRef Result As ProwlResult,
-                                  Optional ByVal ProviderKey As String = Nothing, _
-                                           Optional ByVal NoSSL As Boolean = False) As Exception
+                                  Optional ByVal ProviderKey As String = Nothing,
+                                  Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
 
@@ -244,8 +245,8 @@ Namespace Prowl.API
         'Call
         Call SB.Append("verify")
         'Parameters
-        Call SB.AppendFormat("?apikey={0}", ApiKey)
-        If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", ProviderKey)
+        Call SB.AppendFormat("?apikey={0}", HttpUtility.UrlEncode(ApiKey))
+        If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
 
         Result = QueryAndParse(SB.ToString(), Ex)
       End If
@@ -267,8 +268,8 @@ Namespace Prowl.API
     Public Shared Function VerifyBegin(ByVal Key As Object,
                                        ByVal ApiKey As String,
                                        ByVal Callback As AsyncCallback,
-                                       Optional ByVal ProviderKey As String = Nothing, _
-                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
+                                       Optional ByVal ProviderKey As String = Nothing,
+                                       Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
@@ -280,8 +281,8 @@ Namespace Prowl.API
       'Call
       Call SB.Append("verify")
       'Parameters
-      Call SB.AppendFormat("?apikey={0}", ApiKey)
-      If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", ProviderKey)
+      Call SB.AppendFormat("?apikey={0}", HttpUtility.UrlEncode(ApiKey))
+      If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
 
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
@@ -314,8 +315,8 @@ Namespace Prowl.API
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveToken(ByVal ProviderKey As String,
-                                         <Out()> ByRef Result As ProwlResult, _
-                                           Optional ByVal NoSSL As Boolean = False) As Exception
+                                         <Out()> ByRef Result As ProwlResult,
+                                         Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
 
@@ -333,7 +334,7 @@ Namespace Prowl.API
         'Call
         Call SB.Append("retrieve/token")
         'Parameters
-        Call SB.AppendFormat("?providerkey={0}", ProviderKey)
+        Call SB.AppendFormat("?providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
 
         Result = QueryAndParse(SB.ToString(), Ex)
       End If
@@ -352,9 +353,9 @@ Namespace Prowl.API
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveTokenBegin(ByVal Key As Object,
-                                              ByVal ProviderKey As Object,
-                                              ByVal Callback As AsyncCallback, _
-                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
+                                              ByVal ProviderKey As String,
+                                              ByVal Callback As AsyncCallback,
+                                              Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
@@ -366,7 +367,7 @@ Namespace Prowl.API
       'Call
       Call SB.Append("retrieve/token")
       'Parameters
-      Call SB.AppendFormat("?providerkey={0}", ProviderKey)
+      Call SB.AppendFormat("?providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
 
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
@@ -401,8 +402,8 @@ Namespace Prowl.API
     ''' <remarks></remarks>
     Public Shared Function RetrieveApiKey(ByVal ProviderKey As String,
                                           ByVal Token As String,
-                                          <Out()> ByRef Result As ProwlResult, _
-                                           Optional ByVal NoSSL As Boolean = False) As Exception
+                                          <Out()> ByRef Result As ProwlResult,
+                                          Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
 
@@ -422,8 +423,8 @@ Namespace Prowl.API
         'Call
         Call SB.Append("retrieve/apikey")
         'Parameters
-        Call SB.AppendFormat("?providerkey={0}", ProviderKey)
-        Call SB.AppendFormat("&token={0}", Token)
+        Call SB.AppendFormat("?providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
+        Call SB.AppendFormat("&token={0}", HttpUtility.UrlEncode(Token))
 
         Result = QueryAndParse(SB.ToString(), Ex)
       End If
@@ -443,10 +444,10 @@ Namespace Prowl.API
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveApiKeyBegin(ByVal Key As Object,
-                                               ByVal ProviderKey As Object,
+                                               ByVal ProviderKey As String,
                                                ByVal Token As String,
-                                               ByVal Callback As AsyncCallback, _
-                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
+                                               ByVal Callback As AsyncCallback,
+                                               Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
@@ -458,8 +459,8 @@ Namespace Prowl.API
       'Call
       Call SB.Append("retrieve/apikey")
       'Parameters
-      Call SB.AppendFormat("?providerkey={0}", ProviderKey)
-      Call SB.AppendFormat("&token={0}", Token)
+      Call SB.AppendFormat("?providerkey={0}", HttpUtility.UrlEncode(ProviderKey))
+      Call SB.AppendFormat("&token={0}", HttpUtility.UrlEncode(Token))
 
       Return QueryAndParseBegin(Key, SB.ToString(), Callback)
     End Function
