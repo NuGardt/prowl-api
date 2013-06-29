@@ -29,10 +29,16 @@ Namespace Prowl.API
   ''' <remarks></remarks>
     Public NotInheritable Class ProwlService
     ''' <summary>
-    ''' Base calling URL.
+    ''' Base calling URL with SSL.
     ''' </summary>
     ''' <remarks></remarks>
-    Private Const ProwlBaseUrl As String = "https://api.prowlapp.com/publicapi/"
+    Private Const ProwlBaseUrlWithSSL As String = "https://api.prowlapp.com/publicapi/"
+
+    ''' <summary>
+    ''' Base calling URL without SSL.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Const ProwlBaseUrl As String = "http://api.prowlapp.com/publicapi/"
 
     ''' <summary>
     ''' Serializer for API response
@@ -84,7 +90,8 @@ Namespace Prowl.API
                                            <Out()> ByRef Result As ProwlResult,
                                            Optional ByVal ProviderKey As String = Nothing,
                                            Optional ByVal Priority As eProwlPriority = eProwlPriority.Normal,
-                                           Optional ByVal URL As String = Nothing) As Exception
+                                           Optional ByVal URL As String = Nothing, _
+                                           Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
 
@@ -104,7 +111,11 @@ Namespace Prowl.API
         Dim SB As New StringBuilder
 
         'URL
-        Call SB.Append(ProwlBaseUrl)
+        If NoSSL Then
+          Call SB.Append(ProwlBaseUrl)
+        Else
+          Call SB.Append(ProwlBaseUrlWithSSL)
+        End If
         'Call
         Call SB.Append("add")
         'Parameters
@@ -112,7 +123,7 @@ Namespace Prowl.API
         If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", ProviderKey)
         Dim tPriority As Int16 = Priority
         Call SB.AppendFormat("&priority={0}", tPriority.ToString())
-        Call SB.AppendFormat("&url={0}", URL)
+        If (Not String.IsNullOrEmpty(URL)) Then Call SB.AppendFormat("&url={0}", URL)
         Call SB.AppendFormat("&application={0}", Application)
         Call SB.AppendFormat("&event={0}", [Event])
         Call SB.AppendFormat("&description={0}", Description)
@@ -159,11 +170,16 @@ Namespace Prowl.API
                                                 ByVal Callback As AsyncCallback,
                                                 Optional ByVal ProviderKey As String = Nothing,
                                                 Optional ByVal Priority As eProwlPriority = eProwlPriority.Normal,
-                                                Optional ByVal URL As String = Nothing) As IAsyncResult
+                                                Optional ByVal URL As String = Nothing, _
+                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
-      Call SB.Append(ProwlBaseUrl)
+      If NoSSL Then
+        Call SB.Append(ProwlBaseUrl)
+      Else
+        Call SB.Append(ProwlBaseUrlWithSSL)
+      End If
       'Call
       Call SB.Append("add")
       'Parameters
@@ -171,7 +187,7 @@ Namespace Prowl.API
       If (Not String.IsNullOrEmpty(ProviderKey)) Then Call SB.AppendFormat("&providerkey={0}", ProviderKey)
       Dim tPriority As Int16 = Priority
       Call SB.AppendFormat("&priority={0}", tPriority.ToString())
-      Call SB.AppendFormat("&url={0}", URL)
+      If (Not String.IsNullOrEmpty(URL)) Then Call SB.AppendFormat("&url={0}", URL)
       Call SB.AppendFormat("&application={0}", Application)
       Call SB.AppendFormat("&event={0}", [Event])
       Call SB.AppendFormat("&description={0}", Description)
@@ -209,7 +225,8 @@ Namespace Prowl.API
     ''' <remarks></remarks>
     Public Shared Function Verify(ByVal ApiKey As String,
                                   <Out()> ByRef Result As ProwlResult,
-                                  Optional ByVal ProviderKey As String = Nothing) As Exception
+                                  Optional ByVal ProviderKey As String = Nothing, _
+                                           Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
 
@@ -219,7 +236,11 @@ Namespace Prowl.API
         Dim SB As New StringBuilder
 
         'URL
-        Call SB.Append(ProwlBaseUrl)
+        If NoSSL Then
+          Call SB.Append(ProwlBaseUrl)
+        Else
+          Call SB.Append(ProwlBaseUrlWithSSL)
+        End If
         'Call
         Call SB.Append("verify")
         'Parameters
@@ -246,11 +267,16 @@ Namespace Prowl.API
     Public Shared Function VerifyBegin(ByVal Key As Object,
                                        ByVal ApiKey As String,
                                        ByVal Callback As AsyncCallback,
-                                       Optional ByVal ProviderKey As String = Nothing) As IAsyncResult
+                                       Optional ByVal ProviderKey As String = Nothing, _
+                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
-      Call SB.Append(ProwlBaseUrl)
+      If NoSSL Then
+        Call SB.Append(ProwlBaseUrl)
+      Else
+        Call SB.Append(ProwlBaseUrlWithSSL)
+      End If
       'Call
       Call SB.Append("verify")
       'Parameters
@@ -288,7 +314,8 @@ Namespace Prowl.API
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveToken(ByVal ProviderKey As String,
-                                         <Out()> ByRef Result As ProwlResult) As Exception
+                                         <Out()> ByRef Result As ProwlResult, _
+                                           Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
 
@@ -298,7 +325,11 @@ Namespace Prowl.API
         Dim SB As New StringBuilder
 
         'URL
-        Call SB.Append(ProwlBaseUrl)
+        If NoSSL Then
+          Call SB.Append(ProwlBaseUrl)
+        Else
+          Call SB.Append(ProwlBaseUrlWithSSL)
+        End If
         'Call
         Call SB.Append("retrieve/token")
         'Parameters
@@ -322,11 +353,16 @@ Namespace Prowl.API
     ''' <remarks></remarks>
     Public Shared Function RetrieveTokenBegin(ByVal Key As Object,
                                               ByVal ProviderKey As Object,
-                                              ByVal Callback As AsyncCallback) As IAsyncResult
+                                              ByVal Callback As AsyncCallback, _
+                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
-      Call SB.Append(ProwlBaseUrl)
+      If NoSSL Then
+        Call SB.Append(ProwlBaseUrl)
+      Else
+        Call SB.Append(ProwlBaseUrlWithSSL)
+      End If
       'Call
       Call SB.Append("retrieve/token")
       'Parameters
@@ -365,7 +401,8 @@ Namespace Prowl.API
     ''' <remarks></remarks>
     Public Shared Function RetrieveApiKey(ByVal ProviderKey As String,
                                           ByVal Token As String,
-                                          <Out()> ByRef Result As ProwlResult) As Exception
+                                          <Out()> ByRef Result As ProwlResult, _
+                                           Optional ByVal NoSSL As Boolean = False) As Exception
       Result = Nothing
       Dim Ex As Exception = Nothing
 
@@ -377,7 +414,11 @@ Namespace Prowl.API
         Dim SB As New StringBuilder
 
         'URL
-        Call SB.Append(ProwlBaseUrl)
+        If NoSSL Then
+          Call SB.Append(ProwlBaseUrl)
+        Else
+          Call SB.Append(ProwlBaseUrlWithSSL)
+        End If
         'Call
         Call SB.Append("retrieve/apikey")
         'Parameters
@@ -404,11 +445,16 @@ Namespace Prowl.API
     Public Shared Function RetrieveApiKeyBegin(ByVal Key As Object,
                                                ByVal ProviderKey As Object,
                                                ByVal Token As String,
-                                               ByVal Callback As AsyncCallback) As IAsyncResult
+                                               ByVal Callback As AsyncCallback, _
+                                           Optional ByVal NoSSL As Boolean = False) As IAsyncResult
       Dim SB As New StringBuilder
 
       'URL
-      Call SB.Append(ProwlBaseUrl)
+      If NoSSL Then
+        Call SB.Append(ProwlBaseUrl)
+      Else
+        Call SB.Append(ProwlBaseUrlWithSSL)
+      End If
       'Call
       Call SB.Append("retrieve/apikey")
       'Parameters
@@ -447,27 +493,20 @@ Namespace Prowl.API
         Request = HttpWebRequest.Create(URL)
 
         Response = Request.GetResponse()
-
         ResponseStream = Response.GetResponseStream()
-
         'Copy stream
         Stream = New MemoryStream()
         Call ResponseStream.CopyTo(Stream)
         Stream.Position = 0
-
         'Close stream
         Call ResponseStream.Close()
         Call ResponseStream.Dispose()
-
         'Close response
         Call Response.Close()
-
         'Replace Stream with MemoryStream so we can seek (read it more than once)
         ResponseStream = Stream
-
         'Deserialize
         Result = DirectCast(ProwlResultSerializer.Deserialize(ResponseStream), ProwlResult)
-
         'Close stream
         Call ResponseStream.Close()
         Call ResponseStream.Dispose()
@@ -475,21 +514,23 @@ Namespace Prowl.API
         Try
           Dim WebEx As WebException = iEx
 
-          ResponseStream = WebEx.Response.GetResponseStream()
+          If (WebEx.Response IsNot Nothing) Then
+            ResponseStream = WebEx.Response.GetResponseStream()
 
-          'Copy stream
-          Stream = New MemoryStream()
-          Call ResponseStream.CopyTo(Stream)
-          Stream.Position = 0
+            'Copy stream
+            Stream = New MemoryStream()
+            Call ResponseStream.CopyTo(Stream)
+            Stream.Position = 0
 
-          'Close stream
-          Call ResponseStream.Close()
-          Call ResponseStream.Dispose()
+            'Close stream
+            Call ResponseStream.Close()
+            Call ResponseStream.Dispose()
 
-          'Close response
-          Call WebEx.Response.Close()
+            'Close response
+            Call WebEx.Response.Close()
 
-          Result = DirectCast(ProwlResultSerializer.Deserialize(Stream), ProwlResult)
+            Result = DirectCast(ProwlResultSerializer.Deserialize(Stream), ProwlResult)
+          End If
 
           Ex = iEx
         Catch iiEx As Exception
