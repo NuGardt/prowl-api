@@ -69,8 +69,8 @@ Namespace Prowl.API
     ''' <param name="Event">The name of the event or subject of the notification.</param>
     ''' <param name="Description">A description of the event, generally terse. [10000]</param>
     ''' <param name="Result">Contains result details if applicable.</param>
-    ''' <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted. [40]</param>
-    ''' <param name="Priority">Default value of 0 if not provided. An integer value ranging [-2, 2] representing:
+    ''' <param name="ProviderKey">Optional (Default: <c>Nothing</c>). Your provider API key. Only necessary if you have been whitelisted. [40]</param>
+    ''' <param name="Priority">Optional (Default: <c>eProwlPriority.Normal</c>). Default value of 0 if not provided. An integer value ranging [-2, 2] representing:
     ''' 
     '''     -2 = Very Low
     '''     -1 = Moderate
@@ -78,11 +78,12 @@ Namespace Prowl.API
     '''      1 = High
     '''      2 = Emergency
     ''' 
-    ''' Emergency priority messages may bypass quiet hours according to the user's settings. </param>
-    ''' <param name="URL">Requires Prowl 1.2 The URL which should be attached to the notification.
+    ''' Emergency priority messages may bypass quiet hours according to the user's settings.</param>
+    ''' <param name="URL">Optional. Requires Prowl 1.2 The URL which should be attached to the notification.
     '''
     ''' This will trigger a redirect when launched, and is viewable in the notification list.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function AddNotification(ByVal ApiKey As String,
                                            ByVal Application As String,
@@ -161,7 +162,8 @@ Namespace Prowl.API
     ''' <param name="URL">Requires Prowl 1.2 The URL which should be attached to the notification.
     '''
     ''' This will trigger a redirect when launched, and is viewable in the notification list.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Returns an <c>System.IAsyncResult</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function AddNotificationBegin(ByVal Key As Object,
                                                 ByVal ApiKey As String,
@@ -202,7 +204,7 @@ Namespace Prowl.API
     ''' <param name="Result">Asynchronous result</param>
     ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
     ''' <param name="Response">Contains response if applicable.</param>
-    ''' <returns></returns>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function AddNotificationEnd(ByVal Result As IAsyncResult,
                                               <Out()> ByRef Key As Object,
@@ -222,7 +224,8 @@ Namespace Prowl.API
     ''' <param name="ApiKey">The user's API key. A 40-byte hexadecimal string.</param>
     ''' <param name="Result">Contains the result if applicable.</param>
     ''' <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function Verify(ByVal ApiKey As String,
                                   <Out()> ByRef Result As ProwlResult,
@@ -263,7 +266,8 @@ Namespace Prowl.API
     ''' <param name="ApiKey">he user's API key. A 40-byte hexadecimal string.</param>
     ''' <param name="Callback">Method to call on completion or failure.</param>
     ''' <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Returns an <c>System.IAsyncResult</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function VerifyBegin(ByVal Key As Object,
                                        ByVal ApiKey As String,
@@ -293,7 +297,7 @@ Namespace Prowl.API
     ''' <param name="Result">Asynchronous result</param>
     ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
     ''' <param name="Response">Contains response if applicable.</param>
-    ''' <returns></returns>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function VerifyEnd(ByVal Result As IAsyncResult,
                                      <Out()> ByRef Key As Object,
@@ -312,7 +316,8 @@ Namespace Prowl.API
     ''' </summary>
     ''' <param name="ProviderKey">Your provider API key. Required</param>
     ''' <param name="Result">Contains the result if applicable.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveToken(ByVal ProviderKey As String,
                                          <Out()> ByRef Result As ProwlResult,
@@ -350,7 +355,8 @@ Namespace Prowl.API
     ''' <param name="Key">Your own Key for tracking asynchronous calls.</param>
     ''' <param name="ProviderKey">Your provider API key. Required</param>
     ''' <param name="Callback">Method to call on completion or failure.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Returns an <c>System.IAsyncResult</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveTokenBegin(ByVal Key As Object,
                                               ByVal ProviderKey As String,
@@ -378,7 +384,7 @@ Namespace Prowl.API
     ''' <param name="Result">Asynchronous result</param>
     ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
     ''' <param name="Response">Contains response if applicable.</param>
-    ''' <returns></returns>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveTokenEnd(ByVal Result As IAsyncResult,
                                             <Out()> ByRef Key As Object,
@@ -398,7 +404,8 @@ Namespace Prowl.API
     ''' <param name="ProviderKey">Your provider API key. Required.</param>
     ''' <param name="Token">The token returned from retrieve/token. Required.</param>
     ''' <param name="Result">Contains the result if applicable.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveApiKey(ByVal ProviderKey As String,
                                           ByVal Token As String,
@@ -441,7 +448,8 @@ Namespace Prowl.API
     ''' <param name="ProviderKey">Your provider API key. Required.</param>
     ''' <param name="Token">The token returned from retrieve/token. Required.</param>
     ''' <param name="Callback">Method to call on completion or failure.</param>
-    ''' <returns></returns>
+    ''' <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+    ''' <returns>Returns an <c>System.IAsyncResult</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveApiKeyBegin(ByVal Key As Object,
                                                ByVal ProviderKey As String,
@@ -471,7 +479,7 @@ Namespace Prowl.API
     ''' <param name="Result">Asynchronous result</param>
     ''' <param name="Key">Contains your key for tracking asynchronous calls.</param>
     ''' <param name="Response">Contains response if applicable.</param>
-    ''' <returns></returns>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
     ''' <remarks></remarks>
     Public Shared Function RetrieveApiKeyEnd(ByVal Result As IAsyncResult,
                                              <Out()> ByRef Key As Object,
@@ -481,6 +489,13 @@ Namespace Prowl.API
 
 #End Region
 
+    ''' <summary>
+    ''' Queries the URL and returns the parsed response.
+    ''' </summary>
+    ''' <param name="URL">The query URL.</param>
+    ''' <param name="Ex">Contains an Exception if an error occurred otherwise <c>Nothing</c>.</param>
+    ''' <returns>Returns the response. May be <c>Nothing</c> if a critical error occurred.</returns>
+    ''' <remarks></remarks>
     Private Shared Function QueryAndParse(ByVal URL As String,
                                           <Out()> ByRef Ex As Exception) As ProwlResult
       Ex = Nothing
@@ -597,6 +612,14 @@ Namespace Prowl.API
 
 #End Region
 
+    ''' <summary>
+    ''' Queries the URL without waiting for the response. The callback is invoked when the response is available.
+    ''' </summary>
+    ''' <param name="Key">Your key object.</param>
+    ''' <param name="URL">The query URL.</param>
+    ''' <param name="Callback">Address of callback method to deliver the response.</param>
+    ''' <returns>Returns an <c>System.IAsyncResult</c>.</returns>
+    ''' <remarks></remarks>
     Public Shared Function QueryAndParseBegin(ByVal Key As Object,
                                               ByVal URL As String,
                                               ByVal Callback As AsyncCallback) As IAsyncResult
@@ -604,7 +627,6 @@ Namespace Prowl.API
       Dim Request As WebRequest
 
       Try
-
         Request = HttpWebRequest.Create(URL)
 
         Result = Request.BeginGetResponse(Callback, New AsyncStateWithKey(Key, Request))
@@ -615,6 +637,14 @@ Namespace Prowl.API
       Return Result
     End Function
 
+    ''' <summary>
+    ''' Parses the <c>IAsyncResult</c>.
+    ''' </summary>
+    ''' <param name="Result">The <c>IAsyncResult</c> from the Callback.</param>
+    ''' <param name="Key">Your key object.</param>
+    ''' <param name="Response">Contains the parsed response if successful otherwise <c>Nothing</c>.</param>
+    ''' <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    ''' <remarks></remarks>
     Public Shared Function QueryAndParseEnd(ByVal Result As IAsyncResult,
                                             <Out()> ByRef Key As Object,
                                             <Out()> ByRef Response As ProwlResult) As Exception
@@ -628,13 +658,16 @@ Namespace Prowl.API
       If (Result Is Nothing) Then
         Ex = New ArgumentNullException("Result")
       Else
+        If (Not Result.IsCompleted) Then Call Result.AsyncWaitHandle.WaitOne()
+
         State = TryCast(Result.AsyncState, AsyncStateWithKey)
-        Key = State.Key
 
         If (State Is Nothing) Then
           Ex = New Exception("Invalid AsyncState.")
         Else
           Try
+            Key = State.Key
+
             If (State.Request Is Nothing) Then
               Ex = New ArgumentNullException("Request")
             Else
