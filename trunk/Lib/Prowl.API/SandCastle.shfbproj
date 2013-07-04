@@ -22,12 +22,12 @@
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>Website</HelpFileFormat>
     <IndentHtml>False</IndentHtml>
-    <KeepLogFile>True</KeepLogFile>
+    <KeepLogFile>False</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CppCommentsFixup>False</CppCommentsFixup>
     <CleanIntermediates>True</CleanIntermediates>
     <DocumentationSources>
-      <DocumentationSource sourceFile="NuGardt Prowl.API.sln" xmlns="" />
+      <DocumentationSource sourceFile="NuGardt.Prowl.API.vbproj" />
     </DocumentationSources>
     <ProjectSummary>&amp;#169%3b &amp;lt%3ba href=&amp;quot%3bhttp://www.nugardt.com&amp;quot%3b&amp;gt%3bNuGardt&amp;lt%3b/a&amp;gt%3b</ProjectSummary>
     <VisibleItems>ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers</VisibleItems>

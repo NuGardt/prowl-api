@@ -26,26 +26,30 @@ Namespace Prowl.API
       <XmlRoot(elementName := "success")>
     Public Class ProwlResultSuccess
       ''' <summary>
-      ''' Sucess code. Normally 200.
+      ''' Returns Sucess code.
       ''' </summary>
-      ''' <remarks></remarks>
+      ''' <remarks>Normally 200</remarks>
       <XmlAttribute(attributeName := "code")>
       Public Code As Int16
 
       ''' <summary>
-      ''' API calls remaining until reset date.
+      ''' Returns API call quota remaining until reset date.
       ''' </summary>
       ''' <remarks></remarks>
       <XmlAttribute(attributeName := "remaining")>
       Public Remaining As Int32
 
       ''' <summary>
-      ''' Reset date of API calls. Unix time.
+      ''' Returns the reset date of API calls quota.
       ''' </summary>
-      ''' <remarks></remarks>
+      ''' <remarks>Unix time. Seconds since 01.01.1970 UTC.</remarks>
       <XmlAttribute(attributeName := "resetdate")>
       Public ResetDate As Int64
 
+      ''' <summary>
+      ''' Constructor.
+      ''' </summary>
+      ''' <remarks></remarks>
       Public Sub New()
         Me.Code = Nothing
         Me.Remaining = Nothing
@@ -53,7 +57,7 @@ Namespace Prowl.API
       End Sub
 
       ''' <summary>
-      ''' Reset date of API calls. 
+      ''' Returns the reset date of API calls quota.
       ''' </summary>
       ''' <value></value>
       ''' <returns></returns>
