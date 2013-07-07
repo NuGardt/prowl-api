@@ -696,6 +696,32 @@ Namespace Prowl.API
             'Close stream
             Call ResponseStream.Close()
             Call ResponseStream.Dispose()
+          Catch iEx As WebException
+            Try
+              Dim WebEx As WebException = iEx
+
+              If (WebEx.Response IsNot Nothing) Then
+                ResponseStream = WebEx.Response.GetResponseStream()
+
+                'Copy stream
+                Stream = New MemoryStream()
+                Call ResponseStream.CopyTo(Stream)
+                Stream.Position = 0
+
+                'Close stream
+                Call ResponseStream.Close()
+                Call ResponseStream.Dispose()
+
+                'Close response
+                Call WebEx.Response.Close()
+
+                Response = DirectCast(ProwlResultSerializer.Deserialize(Stream), ProwlResult)
+              End If
+
+              Ex = iEx
+            Catch iiEx As Exception
+              Ex = iiEx
+            End Try
           Catch iEx As Exception
             Ex = iEx
           End Try
