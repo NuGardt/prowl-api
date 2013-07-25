@@ -28,7 +28,7 @@ Namespace Prowl.API
   ''' Class contains synchronous and asynchronous API call function.
   ''' </summary>
   ''' <remarks></remarks>
-    Public NotInheritable Class ProwlService
+  Public NotInheritable Class ProwlService
     ''' <summary>
     ''' Base calling URL with SSL.
     ''' </summary>

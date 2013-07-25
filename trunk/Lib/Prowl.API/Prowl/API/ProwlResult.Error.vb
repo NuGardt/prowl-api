@@ -23,7 +23,7 @@ Namespace Prowl.API
     ''' Error details.
     ''' </summary>
     ''' <remarks></remarks>
-      <XmlRoot(elementName := "error")>
+    <XmlRoot(elementName := "error")>
     Public Class ProwlResulterror
       ''' <summary>
       ''' Error code.
