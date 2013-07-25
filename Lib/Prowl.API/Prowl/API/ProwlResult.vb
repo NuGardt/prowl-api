@@ -22,7 +22,7 @@ Namespace Prowl.API
   ''' Prowl API response.
   ''' </summary>
   ''' <remarks></remarks>
-    <XmlRoot(elementName := "prowl")>
+  <XmlRoot(elementName := "prowl")>
   Public Class ProwlResult
     ''' <summary>
     ''' Contains error details if applicable.

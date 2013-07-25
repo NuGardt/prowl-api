@@ -23,7 +23,7 @@ Namespace Prowl.API
     ''' Success details.
     ''' </summary>
     ''' <remarks></remarks>
-      <XmlRoot(elementName := "success")>
+    <XmlRoot(elementName := "success")>
     Public Class ProwlResultSuccess
       ''' <summary>
       ''' Returns Sucess code.

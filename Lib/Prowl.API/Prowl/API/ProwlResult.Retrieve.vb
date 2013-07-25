@@ -23,7 +23,7 @@ Namespace Prowl.API
     ''' Token/API key retrieve details
     ''' </summary>
     ''' <remarks></remarks>
-      <XmlRoot(elementName := "success")>
+    <XmlRoot(elementName := "success")>
     Public Class ProwlResultRetrieve
       ''' <summary>
       ''' Token

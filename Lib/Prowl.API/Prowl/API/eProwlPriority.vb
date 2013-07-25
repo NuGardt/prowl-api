@@ -20,35 +20,35 @@ Namespace Prowl.API
   ''' Notification priorities
   ''' </summary>
   ''' <remarks></remarks>
-    Public Enum eProwlPriority As Int16
+  Public Enum eProwlPriority As Int16
     ''' <summary>
     ''' Very Low
     ''' </summary>
     ''' <remarks></remarks>
-      VeryLow = - 2
+    VeryLow = - 2
 
     ''' <summary>
     ''' Moderate
     ''' </summary>
     ''' <remarks></remarks>
-      Moderate = - 1
+    Moderate = - 1
 
     ''' <summary>
     ''' Normal
     ''' </summary>
     ''' <remarks></remarks>
-      Normal = 0
+    Normal = 0
 
     ''' <summary>
     ''' High
     ''' </summary>
     ''' <remarks></remarks>
-      High = 1
+    High = 1
 
     ''' <summary>
     ''' Emergency
     ''' </summary>
     ''' <remarks>Emergency priority messages may bypass quiet hours according to the user's settings.</remarks>
-      Emergency = 2
+    Emergency = 2
   End Enum
 End Namespace
