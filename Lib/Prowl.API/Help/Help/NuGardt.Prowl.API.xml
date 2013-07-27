@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>NuGardt.Prowl.API</name>
+  </assembly>
+  <members>
+    <member name="T:NuGardt.Prowl.API.eProwlPriority">
+      <summary>
+ Notification priorities
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.eProwlPriority.VeryLow">
+      <summary>
+ Very Low
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.eProwlPriority.Moderate">
+      <summary>
+ Moderate
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.eProwlPriority.Normal">
+      <summary>
+ Normal
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.eProwlPriority.High">
+      <summary>
+ High
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.eProwlPriority.Emergency">
+      <summary>
+ Emergency
+ </summary>
+    </member>
+    <member name="T:NuGardt.Prowl.API.ProwlResult">
+      <summary>
+ Prowl API response.
+ </summary>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlResult.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>NuGardt.Prowl.API.ProwlResult</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.Error">
+      <summary>
+ Contains error details if applicable.
+ </summary>
+    </member>
+    <member name="P:NuGardt.Prowl.API.ProwlResult.HasException">
+      <summary>
+ Returns <c>True</c> if there was an exception, otherwise <c>False</c>.
+ </summary>
+      <returns></returns>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.Retrieve">
+      <summary>
+ Contains Token/API key retrieval details if applicable.
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.Success">
+      <summary>
+ Contains success details if applicable.
+ </summary>
+    </member>
+    <member name="P:NuGardt.Prowl.API.ProwlResult.ToException">
+      <summary>
+ Converts error details into <c>System.Exception</c>.
+ </summary>
+      <returns></returns>
+    </member>
+    <member name="T:NuGardt.Prowl.API.ProwlResult.ProwlResulterror">
+      <summary>
+ Error details.
+ </summary>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlResult.ProwlResulterror.#ctor">
+      <summary>
+ Constructor.
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResulterror.Code">
+      <summary>
+ Error code.
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResulterror.Message">
+      <summary>
+ Error message.
+ </summary>
+    </member>
+    <member name="T:NuGardt.Prowl.API.ProwlResult.ProwlResultRetrieve">
+      <summary>
+ Token/API key retrieve details
+ </summary>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlResult.ProwlResultRetrieve.#ctor">
+      <summary>
+ Constructor
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResultRetrieve.ApiKey">
+      <summary>
+ API key.
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResultRetrieve.Token">
+      <summary>
+ Token
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResultRetrieve.Url">
+      <summary>
+ URL to authorize Token
+ </summary>
+    </member>
+    <member name="T:NuGardt.Prowl.API.ProwlResult.ProwlResultSuccess">
+      <summary>
+ Success details.
+ </summary>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlResult.ProwlResultSuccess.#ctor">
+      <summary>
+ Constructor.
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResultSuccess.Code">
+      <summary>
+ Returns Sucess code.
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResultSuccess.Remaining">
+      <summary>
+ Returns API call quota remaining until reset date.
+ </summary>
+    </member>
+    <member name="F:NuGardt.Prowl.API.ProwlResult.ProwlResultSuccess.ResetDate">
+      <summary>
+ Returns the reset date of API calls quota.
+ </summary>
+    </member>
+    <member name="T:NuGardt.Prowl.API.ProwlService">
+      <summary>
+ Class contains synchronous and asynchronous API call function.
+ </summary>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.AddNotification(System.String,System.String,System.String,System.String,NuGardt.Prowl.API.ProwlResult@,System.String,NuGardt.Prowl.API.eProwlPriority,System.String,System.Boolean)">
+      <summary>
+ Add a notification for a particular user.
+ 
+ You must provide either event or description or both.
+ </summary>
+      <param name="ApiKey">API keys separated by commas. Each API key is a 40-byte hexadecimal string.
+ 
+ When using multiple API keys, you will only get a failure response if all API keys are not valid.</param>
+      <param name="Application">The name of your application or the application generating the event.</param>
+      <param name="Event">The name of the event or subject of the notification.</param>
+      <param name="Description">A description of the event, generally terse. [10000]</param>
+      <param name="Result">Contains result details if applicable.</param>
+      <param name="ProviderKey">Optional (Default: <c>Nothing</c>). Your provider API key. Only necessary if you have been whitelisted. [40]</param>
+      <param name="Priority">Optional (Default: <c>eProwlPriority.Normal</c>). Default value of 0 if not provided. An integer value ranging [-2, 2] representing:
+ 
+     -2 = Very Low
+     -1 = Moderate
+      0 = Normal
+      1 = High
+      2 = Emergency
+ 
+ Emergency priority messages may bypass quiet hours according to the user's settings.</param>
+      <param name="URL">Optional. Requires Prowl 1.2 The URL which should be attached to the notification.
+
+ This will trigger a redirect when launched, and is viewable in the notification list.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.AddNotificationBegin(System.Object,System.String,System.String,System.String,System.String,System.AsyncCallback,System.String,NuGardt.Prowl.API.eProwlPriority,System.String,System.Boolean)">
+      <summary>
+ Add a notification for a particular user.
+ 
+ You must provide either event or description or both.
+ </summary>
+      <param name="Key">Your own Key for tracking asynchronous calls.</param>
+      <param name="ApiKey">API keys separated by commas. Each API key is a 40-byte hexadecimal string.
+ 
+ When using multiple API keys, you will only get a failure response if all API keys are not valid.</param>
+      <param name="Application">The name of your application or the application generating the event.</param>
+      <param name="Event">The name of the event or subject of the notification.</param>
+      <param name="Description">A description of the event, generally terse. [10000]</param>
+      <param name="Callback">Method to call on completion or failure.</param>
+      <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted. [40]</param>
+      <param name="Priority">Default value of 0 if not provided. An integer value ranging [-2, 2] representing:
+ 
+     -2 = Very Low
+     -1 = Moderate
+      0 = Normal
+      1 = High
+      2 = Emergency
+ 
+ Emergency priority messages may bypass quiet hours according to the user's settings. </param>
+      <param name="URL">Requires Prowl 1.2 The URL which should be attached to the notification.
+
+ This will trigger a redirect when launched, and is viewable in the notification list.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Returns an <c>System.IAsyncResult</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.AddNotificationEnd(System.IAsyncResult,System.Object@,NuGardt.Prowl.API.ProwlResult@)">
+      <summary>
+ Gets the response after the callback.
+ </summary>
+      <param name="Result">Asynchronous result</param>
+      <param name="Key">Contains your key for tracking asynchronous calls.</param>
+      <param name="Response">Contains response if applicable.</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.RetrieveApiKey(System.String,System.String,NuGardt.Prowl.API.ProwlResult@,System.Boolean)">
+      <summary>
+ Get an API key from a registration token retrieved in retrieve/token. The user must have approved your request first, or you will get an error response.
+
+ This is the second/final step in fetching an API key for a user.
+ </summary>
+      <param name="ProviderKey">Your provider API key. Required.</param>
+      <param name="Token">The token returned from retrieve/token. Required.</param>
+      <param name="Result">Contains the result if applicable.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.RetrieveApiKeyBegin(System.Object,System.String,System.String,System.AsyncCallback,System.Boolean)">
+      <summary>
+ Get an API key from a registration token retrieved in retrieve/token. The user must have approved your request first, or you will get an error response.
+
+ This is the second/final step in fetching an API key for a user.
+ </summary>
+      <param name="Key">Your own Key for tracking asynchronous calls.</param>
+      <param name="ProviderKey">Your provider API key. Required.</param>
+      <param name="Token">The token returned from retrieve/token. Required.</param>
+      <param name="Callback">Method to call on completion or failure.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Returns an <c>System.IAsyncResult</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.RetrieveApiKeyEnd(System.IAsyncResult,System.Object@,NuGardt.Prowl.API.ProwlResult@)">
+      <summary>
+ Gets the response after the callback.
+ </summary>
+      <param name="Result">Asynchronous result</param>
+      <param name="Key">Contains your key for tracking asynchronous calls.</param>
+      <param name="Response">Contains response if applicable.</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.RetrieveToken(System.String,NuGardt.Prowl.API.ProwlResult@,System.Boolean)">
+      <summary>
+ Get a registration token for use in retrieve/apikey and the associated URL for the user to approve the request.
+ 
+ This is the first step in fetching an API key for a user. The token retrieved expires after 24 hours.
+ </summary>
+      <param name="ProviderKey">Your provider API key. Required</param>
+      <param name="Result">Contains the result if applicable.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.RetrieveTokenBegin(System.Object,System.String,System.AsyncCallback,System.Boolean)">
+      <summary>
+ Get a registration token for use in retrieve/apikey and the associated URL for the user to approve the request.
+ 
+ This is the first step in fetching an API key for a user. The token retrieved expires after 24 hours.
+ </summary>
+      <param name="Key">Your own Key for tracking asynchronous calls.</param>
+      <param name="ProviderKey">Your provider API key. Required</param>
+      <param name="Callback">Method to call on completion or failure.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Returns an <c>System.IAsyncResult</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.RetrieveTokenEnd(System.IAsyncResult,System.Object@,NuGardt.Prowl.API.ProwlResult@)">
+      <summary>
+ Gets the response after the callback.
+ </summary>
+      <param name="Result">Asynchronous result</param>
+      <param name="Key">Contains your key for tracking asynchronous calls.</param>
+      <param name="Response">Contains response if applicable.</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.Verify(System.String,NuGardt.Prowl.API.ProwlResult@,System.String,System.Boolean)">
+      <summary>
+ Verify an API key is valid.
+
+ For the sake of adding a notification do not call verify first; it costs you an API call. You should only use verify to confirm an API key is valid in situations like a user entering an API key into your program. If it's not valid while posting the notification, you will get the appropriate error.
+ </summary>
+      <param name="ApiKey">The user's API key. A 40-byte hexadecimal string.</param>
+      <param name="Result">Contains the result if applicable.</param>
+      <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.VerifyBegin(System.Object,System.String,System.AsyncCallback,System.String,System.Boolean)">
+      <summary>
+ Verify an API key is valid.
+ 
+ For the sake of adding a notification do not call verify first; it costs you an API call. You should only use verify to confirm an API key is valid in situations like a user entering an API key into your program. If it's not valid while posting the notification, you will get the appropriate error.
+ </summary>
+      <param name="Key">Your own Key for tracking asynchronous calls.</param>
+      <param name="ApiKey">he user's API key. A 40-byte hexadecimal string.</param>
+      <param name="Callback">Method to call on completion or failure.</param>
+      <param name="ProviderKey">Your provider API key. Only necessary if you have been whitelisted.</param>
+      <param name="NoSSL">Optional (Default: <c>False</c>). Call the query without utilizing SSL (encryption).</param>
+      <returns>Returns an <c>System.IAsyncResult</c>.</returns>
+    </member>
+    <member name="M:NuGardt.Prowl.API.ProwlService.VerifyEnd(System.IAsyncResult,System.Object@,NuGardt.Prowl.API.ProwlResult@)">
+      <summary>
+ Gets the response after the callback.
+ </summary>
+      <param name="Result">Asynchronous result</param>
+      <param name="Key">Contains your key for tracking asynchronous calls.</param>
+      <param name="Response">Contains response if applicable.</param>
+      <returns>Return an <c>System.Exception</c> if an error occurred otherwise <c>Nothing</c>.</returns>
+    </member>
+  </members>
+</doc>
