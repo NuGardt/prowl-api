@@ -9,13 +9,14 @@
     </SchemaVersion>
     <ProjectGuid>{98428911-F3BB-4DBA-9DA0-3B4D0E14C7B8}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Prowl.Client.Prowl.Client.StartUp</StartupObject>
-    <RootNamespace>Prowl.Client</RootNamespace>
+    <StartupObject>NuGardt.Prowl.Client.StartUp</StartupObject>
+    <RootNamespace>NuGardt</RootNamespace>
     <AssemblyName>prowl</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -103,6 +104,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
